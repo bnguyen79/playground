@@ -13,6 +13,7 @@ class Test(unittest.TestCase):
 
         #self.base_url = "http://losangeles.eventful.com/"
         self.driver.get("www.google.com")
+        
 
         assert "Google" in self.driver.title
 
