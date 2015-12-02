@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
@@ -11,16 +13,13 @@ class IdeTestEventfulJoin(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = "https://search.yahoo.com/"
+        self.base_url = "www.eventful.com"
         self.verificationErrors = []
         self.accept_next_alert = True
     
     def test_ide_test_eventful_join(self):
         driver = self.driver
-        driver.get(self.base_url + "/yhs/search?p=eventful&ei=UTF-8&hspart=mozilla&hsimp=yhs-002")
-        driver.find_element_by_id("yschsp").click()
-        driver.find_element_by_id("yui_3_10_0_1_1449092637055_559").click()
-        driver.find_element_by_id("yui_3_10_0_1_1449092732910_305").click()
+        driver.get(self.base_url)
         driver.find_element_by_link_text("Movies").click()
         driver.find_element_by_link_text("Demand it!").click()
         driver.find_element_by_css_selector("#nav-my > a.nav-tab").click()
@@ -28,6 +27,10 @@ class IdeTestEventfulJoin(unittest.TestCase):
         driver.find_element_by_id("inp-join-email").clear()
         driver.find_element_by_id("inp-join-email").send_keys("qa3eventful@outlook.com")
         driver.find_element_by_id("inp-join-username").clear()
+
+        known_email_address = driver.find_element_by_id("error-mJoin-email-invalidFormat")
+        #assert known_email_address.is_alert_present
+        known_email_address.click()
         driver.find_element_by_id("inp-join-username").send_keys("qa3")
         driver.find_element_by_id("inp-password1").click()
         driver.find_element_by_id("inp-password1").clear()
